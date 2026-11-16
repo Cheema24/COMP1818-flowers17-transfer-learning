@@ -1,0 +1,14 @@
+{
+  "epochs": 20,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "seed": 42,
+  "split": 1,
+  "device": "cpu",
+  "classes": 17,
+  "preprocessing": "ImageNet default resize 256 / center crop 224",
+  "augmentation": false,
+  "selection": "lowest validation cross-entropy",
+  "image_loading": "requested compressed image bytes cached from local archive",
+  "label_rule": "(image_id - 1) // 80"
+}

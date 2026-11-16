@@ -1,0 +1,13 @@
+{
+  "best_epoch": 20,
+  "validation_loss": 0.32816052436828613,
+  "validation_accuracy": 0.9264705882352942,
+  "validation_macro_f1": 0.9281799284253716,
+  "majority_validation_accuracy": 0.058823529411764705,
+  "trainable_parameters": 9809,
+  "feature_extraction_seconds": 11.784722706997854,
+  "head_training_seconds": 0.3098000639984093,
+  "total_seconds": 12.182160697000654,
+  "test_evaluated": false,
+  "seed": 42
+}
