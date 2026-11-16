@@ -1,0 +1,25 @@
+# Local environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.matplotlib/
+.DS_Store
+
+# Large third-party assets and trained weights
+wheelhouse/
+*.whl
+*.pth
+*.pt
+*.tgz
+*.tar
+*.gz
+*.zip
+/data/*.mat
+
+# Local credentials and editor files
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
