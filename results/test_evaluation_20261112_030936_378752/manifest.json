@@ -1,0 +1,37 @@
+{
+  "split": 1,
+  "test_images": 340,
+  "images_per_class": 20,
+  "labels": "numeric classes 0-16; 80 sequential source images per class",
+  "preprocessing": "ImageNet default resize 256, center crop 224, normalize",
+  "checkpoint_selection": "completed on validation before test evaluation",
+  "checkpoints": [
+    {
+      "method": "Frozen baseline",
+      "source_run": "baseline_20261112_030300_944563",
+      "checkpoint": "baseline_model.pth",
+      "sha256": "8383da739d088e1443bab2eb13cc932b0de94ed334ba0e5b720eb454c5f9f553",
+      "selected_epoch": 20,
+      "evaluated_source_run": "/Users/uzbekcheema/ai-cleanup-test-20261112-030047/results/baseline_20261112_030300_944563"
+    },
+    {
+      "method": "Full LP-FT",
+      "source_run": "two_stage_20261112_030318_406056",
+      "checkpoint": "two_stage_model.pth",
+      "sha256": "e81140d9210aaac84819c0a521234dffe170ba89ba07b0167b8d301ba0285b34",
+      "selected_epoch": 1,
+      "evaluated_source_run": "/Users/uzbekcheema/ai-cleanup-test-20261112-030047/results/two_stage_20261112_030318_406056"
+    },
+    {
+      "method": "Final-block extension",
+      "source_run": "final_block_20261112_030815_639295",
+      "checkpoint": "final_block_model.pth",
+      "sha256": "2ad862d9b31261ef2cdf9aafb3d75ce2ed6124d59b0a7df52284d96b1ee4ba00",
+      "selected_epoch": 1,
+      "evaluated_source_run": "/Users/uzbekcheema/ai-cleanup-test-20261112-030047/results/final_block_20261112_030815_639295"
+    }
+  ],
+  "training_performed": false,
+  "test_used_for_selection": false,
+  "trivial_majority_test_accuracy": 0.058823529411764705
+}
