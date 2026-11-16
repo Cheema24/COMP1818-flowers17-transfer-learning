@@ -153,7 +153,3 @@ To remake the saved graphs without training or testing again, run:
 python plot_results.py
 ```
 
-## Coursework files
-
-The report is kept separately. It should link to this repository and the full
-project download so the teaching team can access the code, data and trained models.
