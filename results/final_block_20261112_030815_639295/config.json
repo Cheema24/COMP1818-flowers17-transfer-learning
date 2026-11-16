@@ -1,0 +1,27 @@
+{
+  "method": "linear probing then final-block fine-tuning",
+  "seed": 42,
+  "final_feature_block_index": 12,
+  "trainable_parameter_names": [
+    "features.12.0.weight",
+    "features.12.1.weight",
+    "features.12.1.bias",
+    "classifier.weight",
+    "classifier.bias"
+  ],
+  "epochs": 10,
+  "learning_rate": 1e-05,
+  "patience": 0,
+  "batch_size": 32,
+  "device": "cpu",
+  "split": 1,
+  "augmentation": false,
+  "baseline_run": "results/baseline_20261112_030300_944563",
+  "baseline_checkpoint_sha256": "8383da739d088e1443bab2eb13cc932b0de94ed334ba0e5b720eb454c5f9f553",
+  "stage1_best_epoch": 20,
+  "batchnorm": "only final feature block updates statistics; earlier blocks stay in eval mode",
+  "image_loading": "deterministic preprocessing once from local archive into memory",
+  "selection": "lowest validation loss among fine-tuned epochs 1..N",
+  "paper": "https://arxiv.org/abs/2202.10054",
+  "training_baseline_run": "/Users/uzbekcheema/ai-cleanup-test-20261112-030047/results/baseline_20261112_030300_944563"
+}

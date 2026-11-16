@@ -1,0 +1,16 @@
+{
+  "best_epoch": 1,
+  "epochs_completed": 10,
+  "stopped_early": false,
+  "validation_loss": 0.326400363445282,
+  "validation_accuracy": 0.9294117647058824,
+  "validation_macro_f1": 0.9299574575478123,
+  "baseline_validation_accuracy": 0.9264705882352942,
+  "accuracy_change_percentage_points": 0.2941176470588225,
+  "trainable_parameters": 66257,
+  "stage2_seconds": 66.15219290700043,
+  "stage1_recorded_seconds": 12.182160697000654,
+  "total_two_stage_seconds": 86.70496622700011,
+  "test_evaluated": false,
+  "seed": 42
+}
