@@ -1,54 +1,64 @@
-# Flowers-17 classification with MobileNetV3-Small
+# Flower classification with MobileNetV3-Small
 
-COMP1818 Artificial Intelligence Applications coursework implementation.
+This is my coursework project for COMP1818 Artificial Intelligence Applications.
+It uses a model called MobileNetV3-Small to sort flower photos into 17 categories.
+The model starts with weights already trained on ImageNet.
 
-This project compares an ImageNet-pretrained MobileNetV3-Small backbone using:
+The aim is to compare three ways of training it on the Flowers-17 dataset:
 
-1. A frozen-feature linear classifier (linear probing).
-2. Linear probing followed by full fine-tuning (LP-FT).
-3. Linear probing followed by final-feature-block and classifier fine-tuning.
+1. **Linear probing:** keep the model's image features fixed and train a new classifier.
+2. **Full fine-tuning:** start with the trained classifier, then train the whole model.
+3. **Final-block fine-tuning:** start with the same classifier, then train only the last feature block and the classifier.
 
-The backbone implementation and pretrained weights come from torchvision. LP-FT
-is based on Kumar et al. (2022). See [REFERENCES.md](REFERENCES.md) for attribution.
+The model and its starting weights come from torchvision. The two-stage training
+method is based on Kumar et al. (2022). The sources are listed in
+[REFERENCES.md](REFERENCES.md).
 
-## Recorded results
+## Results
 
-Official Flowers-17 split 1: 680 training, 340 validation and 340 test images.
-Seed 42; checkpoints selected by validation cross-entropy.
+I used the first official dataset split: 680 images for training, 340 for
+validation and 340 for testing. The random seed was 42. Each model was saved
+when it had the lowest validation loss.
 
-| Method | Test accuracy | Macro-F1 | Correct / 340 |
+| Method | Test accuracy | Macro-F1 | Correct out of 340 |
 |---|---:|---:|---:|
-| Frozen baseline | 92.35% | 0.9232 | 314 |
-| Full LP-FT | 92.65% | 0.9265 | 315 |
-| Final-block extension | 92.94% | 0.9290 | 316 |
+| Linear probing | 92.35% | 0.9232 | 314 |
+| Full fine-tuning | 92.65% | 0.9265 | 315 |
+| Final-block fine-tuning | 92.94% | 0.9290 | 316 |
 
-The extension's advantage over the baseline is two test images. One seed and one
-split do not establish general superiority. Do not tune settings against the
-observed test scores.
+Macro-F1 gives each flower category equal weight when combining precision and recall.
 
-Saved configurations, histories, predictions, metrics and exported figures are
-included under `results/`. Absolute paths in original experiment metadata describe
-the machine used for those runs; they are retained as provenance, not setup paths.
+Final-block fine-tuning had the highest accuracy in this run, but it only got two
+more images right than linear probing. More runs with different seeds and splits
+would be needed to know whether it is consistently better. Any further tuning
+should use the validation set, rather than the test results.
 
-## Repository contents
+The settings, training history, predictions and graphs are in `results/`.
+Some saved records include paths from the computer used for the experiments.
+You do not need to use those paths on your own computer.
 
-- `flower_data.py`: archive image loading and tensor preparation.
-- `train_baseline.py`: frozen features and a linear classifier.
-- `train_two_stage.py`: full or final-block fine-tuning.
-- `train_extension.py`: final-block fine-tuning entry point.
-- `evaluate_test.py`: held-out checkpoint evaluation.
-- `plot_results.py`: saved-history and comparison plots.
-- `check_project.py`: data checksums, image readability and pretrained model check.
-- `requirements-lock.txt`: dependency versions recorded for the original environment.
-- `data/download_manifest.json`, `models/source.json`: original asset URLs and SHA-256 hashes.
+## Main files
 
-Python source files are copied unchanged from the coursework project.
+| File | What it does |
+|---|---|
+| `flower_data.py` | Loads and prepares the flower images. |
+| `train_baseline.py` | Trains the linear-probing baseline. |
+| `train_two_stage.py` | Runs the second stage of fine-tuning. |
+| `train_extension.py` | Runs final-block fine-tuning. |
+| `evaluate_test.py` | Tests the three saved models. |
+| `plot_results.py` | Makes graphs from the saved results. |
+| `check_project.py` | Checks the data files and starting model weights. |
+| `requirements-lock.txt` | Lists the package versions used for the project. |
 
-## Setup
+The Python files are the same as those in the full coursework folder.
 
-The original experiments used Python 3.12, PyTorch 2.2.2 and torchvision 0.17.2 on
-an Intel Mac with CPU execution. The exact dependency record is included; package
-availability and platform compatibility must be checked when recreating that environment.
+## Set up the project
+
+The experiments ran on an Intel Mac using the CPU, Python 3.12,
+PyTorch 2.2.2 and torchvision 0.17.2. The listed package versions record that
+setup; you may need compatible versions for a different computer.
+
+Open a terminal in the project folder and run:
 
 ```sh
 python3.12 -m venv .venv
@@ -56,33 +66,34 @@ source .venv/bin/activate
 python -m pip install -r requirements-lock.txt
 ```
 
-On Windows, activate with `.venv\Scripts\activate` instead.
+On Windows, use `.venv\Scripts\activate` to activate the environment instead.
 
-### Data and pretrained weights
+### Add the data and starting weights
 
-Large assets are deliberately excluded. Restore them from the complete coursework
-folder, or download the original assets using the source URLs in the manifests.
-The scripts expect these paths relative to this README:
+The large data and model files are not included on GitHub. Copy them from the
+full coursework folder, or download them using the links below. Save each file
+at the path shown.
 
-| Required file | Original source |
+| Save as | Download |
 |---|---|
-| `data/17flowers.tgz` | https://www.robots.ox.ac.uk/~vgg/data/flowers/17/17flowers.tgz |
-| `data/datasplits.mat` | https://www.robots.ox.ac.uk/~vgg/data/flowers/17/datasplits.mat |
-| `models/mobilenet_v3_small-imagenet.pth` | https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth |
+| `data/17flowers.tgz` | [Flower images](https://www.robots.ox.ac.uk/~vgg/data/flowers/17/17flowers.tgz) |
+| `data/datasplits.mat` | [Official dataset splits](https://www.robots.ox.ac.uk/~vgg/data/flowers/17/datasplits.mat) |
+| `models/mobilenet_v3_small-imagenet.pth` | [ImageNet model weights](https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth) |
 
-Keep the image archive compressed; the loader reads it directly. The original
-Oxford README is included at `data/README.txt`.
+Do not extract `17flowers.tgz`. The code reads the images straight from it.
+The original dataset notes are in `data/README.txt`. The download links and file
+checksums are also saved in `data/download_manifest.json` and `models/source.json`.
 
-After restoring the files, verify them:
+Once the files are in place, run:
 
 ```sh
 python check_project.py
 ```
 
-### Existing trained checkpoints
+### Use the models already trained
 
-To evaluate the recorded runs without retraining, copy the following files from
-the full coursework project into the same relative locations in this repository:
+To test the existing models without training them again, copy these files from
+the full coursework folder into the matching folders here:
 
 ```text
 results/baseline_20261112_030300_944563/baseline_model.pth
@@ -90,11 +101,10 @@ results/two_stage_20261112_030318_406056/two_stage_model.pth
 results/final_block_20261112_030815_639295/final_block_model.pth
 ```
 
-**Complete implementation, dataset and trained models:** add an accessible
-OneDrive/Google Drive share link here before using this repository as the report's
-implementation link. GitHub alone does not contain the large files listed above.
+**Full project download:** share link to be added. This will provide the large
+files that are not included in this repository.
 
-## Train new runs
+## Train the models
 
 ```sh
 python train_baseline.py
@@ -102,38 +112,48 @@ python train_two_stage.py --baseline results/YOUR_BASELINE_FOLDER
 python train_extension.py --baseline results/YOUR_BASELINE_FOLDER
 ```
 
-Use the same baseline folder for both fine-tuning methods. Each command prints
-its new result directory. Defaults are 20 baseline epochs and 10 fine-tuning epochs,
-seed 42, batch size 32, learning rates 0.001 and 0.00001, and no augmentation.
-Fine-tuning supports `--patience N`; its default of zero disables early stopping.
+The first command prints the name of its new results folder. Replace
+`YOUR_BASELINE_FOLDER` with that name in the next two commands. Both fine-tuning
+methods should start from the same baseline.
 
-## Evaluate
+The default settings are:
 
-With the original checkpoints restored, the default command evaluates those runs:
+- 20 training epochs for the baseline and 10 for each fine-tuning method.
+- Batch size 32 and random seed 42.
+- Learning rate 0.001 for the baseline and 0.00001 for fine-tuning.
+- No image augmentation.
+
+An epoch is one pass through the training data. Fine-tuning also accepts
+`--patience N` to stop after N epochs without a lower validation loss.
+The default is zero, which runs all epochs.
+
+## Test the models
+
+After adding the original trained model files, run:
 
 ```sh
 python evaluate_test.py
 ```
 
-For newly trained runs, provide all three folders together:
+To test new runs, give it all three results folders:
 
 ```sh
 python evaluate_test.py --baseline results/YOUR_BASELINE_FOLDER --full results/YOUR_FULL_FOLDER --extension results/YOUR_EXTENSION_FOLDER
 ```
 
-Paths are relative to the current terminal directory; absolute paths are accepted.
-Evaluation writes a new result directory with metrics, predictions, confusion
-matrices, plots and checkpoint hashes. Matrix rows are true classes and columns
-are predictions, with numeric labels 0–16.
+The script saves the test scores, predictions, graphs and confusion matrices in
+a new results folder. In each confusion matrix, rows show the true categories
+and columns show the predicted categories. Categories are numbered 0 to 16.
 
-To rebuild saved figures without training or inference:
+Folder paths start from your current terminal location. Full paths also work.
+
+To remake the saved graphs without training or testing again, run:
 
 ```sh
 python plot_results.py
 ```
 
-## Coursework access
+## Coursework files
 
-The report should link to this repository and the complete artefact share. Ensure
-the teaching team can access both. The report, its interpretation and final AI-use
-declaration are maintained separately.
+The report is kept separately. It should link to this repository and the full
+project download so the teaching team can access the code, data and trained models.
